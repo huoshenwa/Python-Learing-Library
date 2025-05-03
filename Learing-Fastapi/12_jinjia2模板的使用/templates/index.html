@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ store_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('my_static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ store_name }}</h1>
+            <p>发现{{ book_count }}本精选好书</p>
+        </header>
+
+        <div class="books-grid">
+            {% for book in books %}
+            <div class="book-card">
+                <div class="book-cover">
+                    <img src="{{ book.cover_url }}" alt="{{ book.title }}">
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">{{ book.title }}</h3>
+                    <p class="book-author">{{ book.author }}</p>
+                    <div class="book-rating">
+                        {% for _ in range(book.rating) %}★{% endfor %}
+                        {% for _ in range(5 - book.rating) %}☆{% endfor %}
+                        ({{ book.reviews }}条评价)
+                    </div>
+                    <p class="book-price">¥{{ "%.2f"|format(book.price) }}</p>
+                    <p class="book-desc">{{ book.description|truncate(100) }}</p>
+                    <a href="#" class="add-to-cart">加入购物车</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            <p>{{ current_year }} © {{ store_name }} - 所有权利保留</p>
+        </footer>
+    </div>
+</body>
+</html>
